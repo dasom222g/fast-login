@@ -1,7 +1,17 @@
-import React, { FC } from "react";
+import React, { FC } from 'react'
+import { Button } from '@chakra-ui/react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Main from './routes/main'
 
 const App: FC = () => {
-  return <div>web3-boilerplate</div>;
-};
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />} />
+      </Routes>
+    </BrowserRouter>
+  )
+  // return <Button colorScheme={"blue"}>click!!</Button>
+}
 
-export default App;
+export default App
