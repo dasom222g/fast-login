@@ -12,7 +12,7 @@ Open a terminal and run the following Git command:
     
 Getting start
 
-    $ yarn add
+    $ yarn or yarn install
     
 ## Start working
     $ yarn start
