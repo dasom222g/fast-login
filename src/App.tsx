@@ -23,9 +23,6 @@ const App: FC = () => {
   useEffect(() => {
     getAccount()
   }, [])
-  useEffect(() => {
-    console.log('account', account)
-  }, [account])
   
   return (
     <BrowserRouter>
