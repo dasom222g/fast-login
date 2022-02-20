@@ -9,12 +9,14 @@ const Layout: FC = ({ children }) => {
         <Box>
           <Text fontWeight="bold">Somi NFT Market</Text>
         </Box>
-        <Link to="/">
-          <Button colorScheme="pink">Main</Button>
-        </Link>
-        <Link to="my-animal">
-          <Button colorScheme="green">My Animal</Button>
-        </Link>
+        <Box>
+          <Link to="/">
+            <Button colorScheme="pink">Main</Button>
+          </Link>
+          <Link to="my-animal">
+            <Button colorScheme="green" ml={2}>My Animal</Button>
+          </Link>
+        </Box>
       </Flex>
       <Flex
         h="full"
