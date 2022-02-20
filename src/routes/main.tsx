@@ -21,7 +21,7 @@ const Main: FC<MainProps> = ({ account }) => {
       console.log('res', res)
 
       // animalType 값 구해서 image이름에 대입
-      if (!res.staus) return
+      if (!res.status) return
       const mintCount: string = await mintAnimalTokenContract.methods
         .balanceOf(account)
         .call()

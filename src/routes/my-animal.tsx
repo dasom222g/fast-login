@@ -75,6 +75,11 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
     setIsLoading(false)
   }
 
+  const setLoading = (isLoading: boolean) => {
+    setIsLoading(isLoading)
+    console.log('isLoading', isLoading)
+  }
+
   useEffect(() => {
     if (!account) return
     getSaleStatus()
@@ -127,6 +132,7 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
             animalPrice={item.animalPrice}
             account={account}
             isSaleStatus={isSaleStatus}
+            setLoading={setLoading}
           />
         ))}
       </Grid>
