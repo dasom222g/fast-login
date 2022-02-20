@@ -1,13 +1,19 @@
 import { Box, Button, Flex, Grid, Spinner, Text } from '@chakra-ui/react'
 import React, { FC, useEffect, useState } from 'react'
-import AnimalCard from '../components/AnimalCard'
-import { mintAnimalTokenContract, saleAnimalTokenAddress } from '../web3Config'
+import MyAnimalCard from '../components/MyAnimalCard'
+import { IAnimalCard } from '../lib/typs'
+import {
+  mintAnimalTokenContract,
+  saleAnimalTokenAddress,
+  saleAnimalTokenContract,
+  web3,
+} from '../web3Config'
 
 interface MyAnimalProps {
   account: string
 }
 const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
-  const [animalCards, setAnimalCards] = useState<string[]>([])
+  const [animalCards, setAnimalCards] = useState<IAnimalCard[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSaleStatus, setIsSaleStatus] = useState<boolean>(false)
 
@@ -17,15 +23,23 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
       const mintCount: string = await mintAnimalTokenContract.methods
         .balanceOf(account)
         .call()
-      let animalTypes: string[] = []
+      let animalTypes: IAnimalCard[] = []
       for (let i = 0; i < Number(mintCount); i++) {
-        const tokenId: string = await mintAnimalTokenContract.methods
+        const animalTokenId: string = await mintAnimalTokenContract.methods
           .tokenOfOwnerByIndex(account, i)
           .call()
         const animalType: string = await mintAnimalTokenContract.methods
-          .animalTypeMap(tokenId)
+          .animalTypeMap(animalTokenId)
           .call()
-        animalTypes = [...animalTypes, animalType]
+        const price: string = await saleAnimalTokenContract.methods
+          .getOnSaleAnimalTokenPrice(animalTokenId)
+          .call()
+        // wei -> matic단위로 변환
+        const animalPrice: string = web3.utils.fromWei(price)
+        animalTypes = [
+          ...animalTypes,
+          { animalTokenId, animalType, animalPrice: Number(animalPrice) },
+        ]
       }
       setAnimalCards(animalTypes)
     } catch (error) {
@@ -74,7 +88,7 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
   // view
   return (
     <>
-      {isLoading &&
+      {isLoading && (
         <Flex
           width="full"
           height="full"
@@ -92,7 +106,7 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
             size="xl"
           />
         </Flex>
-      }
+      )}
       <Flex justifyContent="center" alignItems="center" mt={10} pb={4}>
         <Text>Sale Status: {isSaleStatus ? 'True' : 'False'}</Text>
         <Button
@@ -106,7 +120,14 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
       </Flex>
       <Grid templateColumns="repeat(2, 1fr)" gap={4} h="full">
         {animalCards.map((item, index) => (
-          <AnimalCard key={index} animalType={item} />
+          <MyAnimalCard
+            key={index}
+            animalTokenId={item.animalTokenId}
+            animalType={item.animalType}
+            animalPrice={item.animalPrice}
+            account={account}
+            isSaleStatus={isSaleStatus}
+          />
         ))}
       </Grid>
     </>
