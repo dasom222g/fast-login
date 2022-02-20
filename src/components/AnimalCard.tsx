@@ -6,7 +6,7 @@ interface AnimalCardProps {
 }
 
 const AnimalCard: FC<AnimalCardProps> = ({ animalType }) => {
-  return <Image w={200} h={200} borderRadius={10} src={`images/${animalType}.png`} alt="Animal Card" />
+  return <Image w={150} h={150} borderRadius={10} src={`images/${animalType}.png`} alt="Animal Card" />
 }
 
 export default AnimalCard

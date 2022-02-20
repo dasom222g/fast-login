@@ -23,6 +23,7 @@ const Layout: FC = ({ children }) => {
         direction="column"
         justifyContent="center"
         alignItems="center"
+        overflow="auto"
       >
         {children}
       </Flex>
