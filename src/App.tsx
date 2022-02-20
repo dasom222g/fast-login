@@ -8,7 +8,7 @@ const App: FC = () => {
     try {
       if (window.ethereum) { // metamask설치되어 있는경우
         // 브라우저에서 metamask 연결 요청하여 account배열 get
-        const accounts = await window.ethereum.request({
+        const accounts: string[] = await window.ethereum.request({
           method: 'eth_requestAccounts'
         })
         setAccount(accounts[0])

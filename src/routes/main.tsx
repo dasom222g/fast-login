@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Box, Text, Flex, Button } from '@chakra-ui/react'
+import { mintAnimalTokenContract } from '../web3Config'
 
 interface MainProps {
   account: string
@@ -7,13 +8,16 @@ interface MainProps {
 
 const Main: FC<MainProps> = ({ account }) => {
   const [newAnimalCard, setAnimalCard] = useState<string>('')
-  const handleMint = () => {
-    console.log('click!!')
+  const handleMint = async () => {
+    try {
+      if (!account) return
+      // mintAnimalTokenContract 주소로 가스비 보내짐
+      const res = await mintAnimalTokenContract.methods.mintAnimalToken().send({from: account})
+      console.log('res', res)
+    } catch(error) {
+      console.error(error)
+    }
   }
-
-  useEffect(() => {
-    console.log('account', account)
-  }, [account])
 
   return (
     <Flex w="full" h="100vh" justifyContent="center" alignItems="center" direction="column">
