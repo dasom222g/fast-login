@@ -1,13 +1,14 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Box, Text, Flex, Button } from '@chakra-ui/react'
 import { mintAnimalTokenContract } from '../web3Config'
+import AnimalCard from '../components/AnimalCard'
 
 interface MainProps {
   account: string
 }
 
 const Main: FC<MainProps> = ({ account }) => {
-  const [newAnimalCard, setAnimalCard] = useState<string>('')
+  const [newAnimalType, setNewAnimalType] = useState<string>('')
   const handleMint = async () => {
     try {
       if (!account) return
@@ -15,12 +16,11 @@ const Main: FC<MainProps> = ({ account }) => {
       const res = await mintAnimalTokenContract.methods.mintAnimalToken().send({from: account})
       console.log('res', res)
 
-      // animalType 가져오기
-      const mintCount = await mintAnimalTokenContract.methods.balanceOf(account).call()
-      const tokenId = await mintAnimalTokenContract.methods.tokenOfOwnerByIndex(account, Number(mintCount) - 1).call()
-      const animalType = await mintAnimalTokenContract.methods.animalTypeMap(tokenId).call()
-      setAnimalCard(animalType)
-      console.log('mintCount', mintCount, 'tokenId', tokenId, 'animalType', animalType, typeof animalType)
+      // animalType 값 구해서 image이름에 대입
+      const mintCount: string = await mintAnimalTokenContract.methods.balanceOf(account).call()
+      const tokenId: string = await mintAnimalTokenContract.methods.tokenOfOwnerByIndex(account, Number(mintCount) - 1).call()
+      const animalType: string = await mintAnimalTokenContract.methods.animalTypeMap(tokenId).call()
+      setNewAnimalType(animalType)
     } catch(error) {
       console.error(error)
     }
@@ -28,8 +28,8 @@ const Main: FC<MainProps> = ({ account }) => {
 
   return (
     <Flex w="full" h="100vh" justifyContent="center" alignItems="center" direction="column">
-      {newAnimalCard ? (
-        <div>Animal card</div>
+      {newAnimalType ? (
+        <AnimalCard animalType={newAnimalType} />
       ) : (
         <Box>
           <Text>Let's mint animal card!!</Text>
