@@ -30,7 +30,7 @@ const MyAnimalCard: FC<MyAnimalCardProps> = ({
     try {
       setLoading(true)
       console.log('price', price)
-      const res = await saleAnimalTokenContract.methods.SaleForAnimalToken(animalTokenId, web3.utils.toWei(String(price), 'ether')).send({ from: account })
+      const res = await saleAnimalTokenContract.methods.saleForAnimalToken(animalTokenId, web3.utils.toWei(String(price), 'ether')).send({ from: account })
       if (!res.status) return
       const resultPrice: string = await saleAnimalTokenContract.methods.getOnSaleAnimalTokenPrice(animalTokenId).call()
       setMyAnimalPrice(Number(web3.utils.fromWei(resultPrice)))
@@ -50,13 +50,13 @@ const MyAnimalCard: FC<MyAnimalCardProps> = ({
       <AnimalCard animalType={animalType} />
       <Box>
         {myAnimalPrice === 0 ? (
-          <>
+          <Box textAlign="left">
             <InputGroup size="sm">
               <Input type="number" name="price" value={price} onChange={onChange} />
               <InputAddon children="Matic" />
             </InputGroup>
-            <Button colorScheme="blue" mt={2} onClick={handleSell}>Sell</Button>
-          </>
+            <Button colorScheme="blue" size="sm" mt={2} onClick={handleSell}>Sell</Button>
+          </Box>
         ) : (
           `${myAnimalPrice} Matic`
         )}
