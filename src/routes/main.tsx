@@ -13,7 +13,7 @@ const Main: FC<MainProps> = ({ account }) => {
     try {
       if (!account) return
       // mintAnimalTokenContract 주소로 가스비 보내짐
-      const res = await mintAnimalTokenContract.methods.mintAnimalToken().send({from: account})
+      const res = await mintAnimalTokenContract.methods.mintAnimalToken().send({ from: account })
       console.log('res', res)
 
       // animalType 값 구해서 image이름에 대입
@@ -21,13 +21,13 @@ const Main: FC<MainProps> = ({ account }) => {
       const tokenId: string = await mintAnimalTokenContract.methods.tokenOfOwnerByIndex(account, Number(mintCount) - 1).call()
       const animalType: string = await mintAnimalTokenContract.methods.animalTypeMap(tokenId).call()
       setNewAnimalType(animalType)
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <Flex w="full" h="100vh" justifyContent="center" alignItems="center" direction="column">
+    <Flex w="full" h="full" justifyContent="center" alignItems="center" direction="column">
       {newAnimalType ? (
         <AnimalCard animalType={newAnimalType} />
       ) : (
