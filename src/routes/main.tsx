@@ -14,6 +14,13 @@ const Main: FC<MainProps> = ({ account }) => {
       // mintAnimalTokenContract 주소로 가스비 보내짐
       const res = await mintAnimalTokenContract.methods.mintAnimalToken().send({from: account})
       console.log('res', res)
+
+      // animalType 가져오기
+      const mintCount = await mintAnimalTokenContract.methods.balanceOf(account).call()
+      const tokenId = await mintAnimalTokenContract.methods.tokenOfOwnerByIndex(account, Number(mintCount) - 1).call()
+      const animalType = await mintAnimalTokenContract.methods.animalTypeMap(tokenId).call()
+      setAnimalCard(animalType)
+      console.log('mintCount', mintCount, 'tokenId', tokenId, 'animalType', animalType, typeof animalType)
     } catch(error) {
       console.error(error)
     }
