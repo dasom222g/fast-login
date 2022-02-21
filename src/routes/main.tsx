@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Box, Text, Flex, Button, Spinner } from '@chakra-ui/react'
-import { mintAnimalTokenContract } from '../web3Config'
+import { mintAnimalTokenContract, saleAnimalTokenAddress } from '../web3Config'
 import AnimalCard from '../components/AnimalCard'
 
 interface MainProps {
@@ -18,7 +18,6 @@ const Main: FC<MainProps> = ({ account }) => {
       const res = await mintAnimalTokenContract.methods
         .mintAnimalToken()
         .send({ from: account })
-      console.log('res', res)
 
       // animalType 값 구해서 image이름에 대입
       if (!res.status) return
@@ -37,6 +36,17 @@ const Main: FC<MainProps> = ({ account }) => {
     }
     setIsLoading(false)
   }
+
+  // const setSaleAnimalToken = async () => {
+  //   try {
+  //     const res = await mintAnimalTokenContract.methods
+  //       .setSaleAnimalTokenContract(saleAnimalTokenAddress)
+  //       .send({ from: account })
+  //     console.log('saleAnimalTokenAddress', res)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 
   // view
   if (isLoading)

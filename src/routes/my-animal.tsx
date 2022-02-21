@@ -23,25 +23,18 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
       const mintCount: string = await mintAnimalTokenContract.methods
         .balanceOf(account)
         .call()
-      let animalTypes: IAnimalCard[] = []
-      for (let i = 0; i < Number(mintCount); i++) {
-        const animalTokenId: string = await mintAnimalTokenContract.methods
-          .tokenOfOwnerByIndex(account, i)
-          .call()
-        const animalType: string = await mintAnimalTokenContract.methods
-          .animalTypeMap(animalTokenId)
-          .call()
-        const price: string = await saleAnimalTokenContract.methods
-          .getOnSaleAnimalTokenPrice(animalTokenId)
-          .call()
-        // wei -> matic단위로 변환
-        const animalPrice: string = web3.utils.fromWei(price)
-        animalTypes = [
-          ...animalTypes,
-          { animalTokenId, animalType, animalPrice: Number(animalPrice) },
-        ]
+      if (!Number(mintCount)) {
+        setIsLoading(false)
+        return
       }
-      setAnimalCards(animalTypes)
+      let tempAnimalCards: IAnimalCard[] = []
+      const animalTokenList: IAnimalCard[] =
+        await mintAnimalTokenContract.methods.getAnimalTokenList(account).call()
+      tempAnimalCards = animalTokenList.map((token) => {
+        const { animalTokenId, animalType, animalPrice } = token
+        return { animalTokenId, animalType, animalPrice }
+      })
+      setAnimalCards(tempAnimalCards)
     } catch (error) {
       console.log(error)
     }
@@ -77,7 +70,6 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
 
   const setLoading = (isLoading: boolean) => {
     setIsLoading(isLoading)
-    console.log('isLoading', isLoading)
   }
 
   useEffect(() => {

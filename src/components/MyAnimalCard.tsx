@@ -23,33 +23,28 @@ const MyAnimalCard: FC<MyAnimalCardProps> = ({
   const [form, onChange] = useInputs(initial)
   const { price } = form
 
-  const [myAnimalPrice, setMyAnimalPrice] = useState<number>(animalPrice)
+  const [myAnimalPrice, setMyAnimalPrice] = useState<string>(animalPrice)
 
   const handleSell = async () => {
     if (!account || !isSaleStatus) return
     try {
       setLoading(true)
-      console.log('price', price)
       const res = await saleAnimalTokenContract.methods.saleForAnimalToken(animalTokenId, web3.utils.toWei(String(price), 'ether')).send({ from: account })
       if (!res.status) return
-      const resultPrice: string = await saleAnimalTokenContract.methods.getOnSaleAnimalTokenPrice(animalTokenId).call()
-      setMyAnimalPrice(Number(web3.utils.fromWei(resultPrice)))
+      // 바로 price를 써주면 형변환 에러가 나므로 toWei메소드 사용
+      setMyAnimalPrice(web3.utils.toWei(String(price), 'ether'))
     } catch (error) {
       console.error(error)
     }
     setLoading(false)
   }
 
-  useEffect(() => {
-    console.log('myAnimalPrice22', myAnimalPrice)
-  }, [myAnimalPrice])
-
   // view
   return (
     <Box w={150} textAlign="center">
       <AnimalCard animalType={animalType} />
       <Box>
-        {myAnimalPrice === 0 ? (
+        {Number(myAnimalPrice) === 0 ? (
           <Box textAlign="left">
             <InputGroup size="sm">
               <Input type="number" name="price" value={price} onChange={onChange} />
@@ -58,7 +53,7 @@ const MyAnimalCard: FC<MyAnimalCardProps> = ({
             <Button colorScheme="blue" size="sm" mt={2} onClick={handleSell}>Sell</Button>
           </Box>
         ) : (
-          `${myAnimalPrice} Matic`
+          `${web3.utils.fromWei(myAnimalPrice)} Matic`
         )}
       </Box>
     </Box>

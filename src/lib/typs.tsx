@@ -1,5 +1,5 @@
 export interface IAnimalCard {
   animalTokenId: string
   animalType: string
-  animalPrice: number
+  animalPrice: string
 }
