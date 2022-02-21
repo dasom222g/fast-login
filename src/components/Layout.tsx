@@ -5,18 +5,21 @@ import { Link } from 'react-router-dom'
 const Layout: FC = ({ children }) => {
   return (
     <Stack h="100vh">
-      <Flex bg="purple.200" p={4} justifyContent="space-between" alignItems="center">
+      <Flex bg="purple.200" p={4} alignItems="center">
         <Box>
           <Text fontWeight="bold">Somi NFT Market</Text>
         </Box>
-        <Box>
+        <Flex ml="auto">
           <Link to="/">
-            <Button colorScheme="pink">Main</Button>
+            <Button size="sm" colorScheme="pink">Main</Button>
           </Link>
           <Link to="my-animal">
-            <Button colorScheme="green" ml={2}>My Animal</Button>
+            <Button size="sm" colorScheme="green" ml={2}>My Animal</Button>
           </Link>
-        </Box>
+          <Link to="sale-animal">
+            <Button size="sm" colorScheme="blue" ml={2}>Sale Animal</Button>
+          </Link>
+        </Flex>
       </Flex>
       <Flex
         h="full"
