@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { IAnimalCard } from '../lib/typs'
+import { IAnimalCard } from '../lib/type'
 import AnimalCard from './AnimalCard'
 import useInputs from '../hooks/useInputs'
 import { Box, Button, Input, InputAddon, InputGroup, Text } from '@chakra-ui/react'
@@ -50,7 +50,7 @@ const MyAnimalCard: FC<MyAnimalCardProps> = ({
               <Input type="number" name="price" value={price} onChange={onChange} />
               <InputAddon children="Matic" />
             </InputGroup>
-            <Button colorScheme="blue" size="sm" mt={2} onClick={handleSell}>Sell</Button>
+            <Button colorScheme="blue" size="sm" mt={2} onClick={handleSell} disabled={!isSaleStatus}>Sell</Button>
           </Box>
         ) : (
           `${web3.utils.fromWei(myAnimalPrice)} Matic`

@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Grid, Spinner, Text } from '@chakra-ui/react'
 import React, { FC, useEffect, useState } from 'react'
 import MyAnimalCard from '../components/MyAnimalCard'
-import { IAnimalCard } from '../lib/typs'
+import { IAnimalCard } from '../lib/type'
 import {
   mintAnimalTokenContract,
   saleAnimalTokenAddress,
