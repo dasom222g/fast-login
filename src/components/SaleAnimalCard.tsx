@@ -48,7 +48,7 @@ const SaleAnimalCard: FC<SaleAnimalCardProps> = ({
   useEffect(() => {
     if (!account) return
     checkOwner()
-  }, [account])
+  }, [account, animalTokenId])
 
   // view
   return (

@@ -27,6 +27,10 @@ const MyAnimalCard: FC<MyAnimalCardProps> = ({
 
   const handleSell = async () => {
     if (!account || !isSaleStatus) return
+    if (price <= 0) {
+      console.error('The price must be at least zero.')
+      return
+    }
     try {
       setLoading(true)
       const res = await saleAnimalTokenContract.methods.saleForAnimalToken(animalTokenId, web3.utils.toWei(String(price), 'ether')).send({ from: account })
