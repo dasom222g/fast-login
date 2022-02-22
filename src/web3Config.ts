@@ -559,6 +559,41 @@ const saleAnimalTokenABI: AbiItem[] = [
   },
   {
     "inputs": [],
+    "name": "getOnSaleAnimalTokenList",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "animalTokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "animalType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "animalPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct SaleAnimalToken.OnsaleAnimalTokenData[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "mintAnimalTokenAddress",
     "outputs": [
       {
@@ -591,8 +626,8 @@ const saleAnimalTokenABI: AbiItem[] = [
   }
 ]
 
-export const mintAnimalTokenAddress = '0xCc1D93b1b3Aa8D71e6a55D0e7563B3ed34ad0359'
-export const saleAnimalTokenAddress = '0xc3434729C050B283CB2E6094159F98C3F94fF916'
+export const mintAnimalTokenAddress = '0x42B1de1Eb3E5cfb6d800A9e844d2EC3262036c8A'
+export const saleAnimalTokenAddress = '0x77375117D74Bb171A4A4C57aEd0329633c5c035F'
 
 export const web3 = new Web3(window.ethereum)
 export const mintAnimalTokenContract = new web3.eth.Contract(mintAnimalTokenABI, mintAnimalTokenAddress)
