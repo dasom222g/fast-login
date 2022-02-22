@@ -8,6 +8,7 @@ import { saleAnimalTokenContract, web3 } from '../web3Config'
 interface SaleAnimalCardProps extends ISaleAnimalCard {
   account: string
   setLoading: (isLoading: boolean) => void
+  hanldelSoldAnimalCard: (soldAnimalCard: ISaleAnimalCard) => void
 }
 
 const SaleAnimalCard: FC<SaleAnimalCardProps> = ({
@@ -16,7 +17,8 @@ const SaleAnimalCard: FC<SaleAnimalCardProps> = ({
   animalType,
   animalPrice,
   owner,
-  setLoading
+  setLoading,
+  hanldelSoldAnimalCard
 }) => {
   const [isOwner, setIsOwner] = useState<boolean>(false)
   const checkOwner = () => {
@@ -26,15 +28,20 @@ const SaleAnimalCard: FC<SaleAnimalCardProps> = ({
   const handleBuy = async () => {
     if (!account) return
     setLoading(true)
-    // try {
-    //   setLoading(true)
-    //   const res = await saleAnimalTokenContract.methods.saleForAnimalToken(animalTokenId, web3.utils.toWei(String(price), 'ether')).send({ from: account })
-    //   if (!res.status) return
-    //   // 바로 price를 써주면 형변환 에러가 나므로 toWei메소드 사용
-    //   setMyAnimalPrice(web3.utils.toWei(String(price), 'ether'))
-    // } catch (error) {
-    //   console.error(error)
-    // }
+    try {
+      // payable함수를 호출할 경우 from, value(지불 금액)를 모두 보내야함
+      const res = await saleAnimalTokenContract.methods.purchaseAnimalToken(animalTokenId).send({ from: account, value: animalPrice })
+      if (!res.status) return
+      const soldAnimalCard: ISaleAnimalCard = {
+        animalTokenId,
+        animalType,
+        animalPrice,
+        owner
+      }
+      hanldelSoldAnimalCard(soldAnimalCard)
+    } catch (error) {
+      console.error(error)
+    }
     setLoading(false)
   }
 

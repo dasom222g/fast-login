@@ -30,7 +30,7 @@ const MyAnimal: FC<MyAnimalProps> = ({ account }) => {
       let tempAnimalCards: IAnimalCard[] = []
       const animalTokenList: IAnimalCard[] =
         await mintAnimalTokenContract.methods.getAnimalTokenList(account).call()
-      tempAnimalCards = animalTokenList.map((token) => {
+      tempAnimalCards = animalTokenList.map((token: IAnimalCard) => {
         const { animalTokenId, animalType, animalPrice } = token
         return { animalTokenId, animalType, animalPrice }
       })

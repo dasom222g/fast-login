@@ -23,19 +23,32 @@ const SaleAnimal: FC<SaleAnimalProps> = ({ account }) => {
     setIsLoading(true)
     try {
       // const onSaleAnimalTokenLength: string = await saleAnimalTokenContract.methods.getOnSaleAnimalTokenLength().call()
-      const onSaleAnimalTokenList: ISaleAnimalCard[] =
-        await saleAnimalTokenContract.methods.getOnSaleAnimalTokenList().call()
-      onSaleAnimalTokenList.length &&
-        setOnSaleAnimalCards(onSaleAnimalTokenList)
+      const onSaleAnimalTokenList: ISaleAnimalCard[] = await saleAnimalTokenContract.methods.getOnSaleAnimalTokenList().call()
+      const tempSaleAnimalCards: ISaleAnimalCard[] = onSaleAnimalTokenList.map((token: ISaleAnimalCard) => {
+        const { animalTokenId, animalType, animalPrice, owner } = token
+        return { animalTokenId, animalType, animalPrice, owner }
+      })
+      setOnSaleAnimalCards(tempSaleAnimalCards)
     } catch (error) {
       console.error(error)
     }
     setIsLoading(false)
   }
 
+  const hanldelSoldAnimalCard = (soldAnimalCard: ISaleAnimalCard) => {
+    const filterAnimalCards = onSaleAnimalCards.filter(card => card.animalTokenId !== soldAnimalCard.animalTokenId)
+    console.log('filterAnimalCards', filterAnimalCards)
+    setOnSaleAnimalCards(filterAnimalCards)
+  }
+
   useEffect(() => {
     account && getOnSaleAnimalToken()
   }, [account])
+
+  useEffect(() => {
+    console.log('onSaleAnimalCards', onSaleAnimalCards)
+  }, [onSaleAnimalCards])
+
   // view
   return (
     <>
@@ -63,11 +76,12 @@ const SaleAnimal: FC<SaleAnimalProps> = ({ account }) => {
           <SaleAnimalCard
             key={index}
             account={account}
-            setLoading={setLoading}
             owner={card.owner}
             animalTokenId={card.animalTokenId}
             animalType={card.animalType}
             animalPrice={card.animalPrice}
+            setLoading={setLoading}
+            hanldelSoldAnimalCard={hanldelSoldAnimalCard}
           />
         ))}
       </Grid>

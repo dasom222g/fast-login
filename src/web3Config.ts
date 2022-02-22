@@ -626,8 +626,8 @@ const saleAnimalTokenABI: AbiItem[] = [
   }
 ]
 
-export const mintAnimalTokenAddress = '0x42B1de1Eb3E5cfb6d800A9e844d2EC3262036c8A'
-export const saleAnimalTokenAddress = '0x77375117D74Bb171A4A4C57aEd0329633c5c035F'
+export const mintAnimalTokenAddress = '0xB459ec871505d98ADEd84F5B795452FbfE9dFA68'
+export const saleAnimalTokenAddress = '0xB01F0730b52b81B1fd40aF0BdC1AceFCe61a695B'
 
 export const web3 = new Web3(window.ethereum)
 export const mintAnimalTokenContract = new web3.eth.Contract(mintAnimalTokenABI, mintAnimalTokenAddress)
