@@ -57,7 +57,7 @@ const MyAnimalCard: FC<MyAnimalCardProps> = ({
             <Button colorScheme="blue" size="sm" mt={2} onClick={handleSell} disabled={!isSaleStatus}>Sell</Button>
           </Box>
         ) : (
-          `${web3.utils.fromWei(myAnimalPrice)} Matic`
+          <Text size="sm">`${web3.utils.fromWei(myAnimalPrice)} Matic`</Text>
         )}
       </Box>
     </Box>
