@@ -11,9 +11,9 @@ const Main: FC<MainProps> = ({ account }) => {
   const [newAnimalType, setNewAnimalType] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const handleMint = async () => {
+    if (!account) return
     setIsLoading(true)
     try {
-      if (!account) return
       // mintAnimalTokenContract 주소로 가스비 보내짐
       const res = await mintAnimalTokenContract.methods
         .mintAnimalToken()

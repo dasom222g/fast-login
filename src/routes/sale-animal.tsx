@@ -19,7 +19,6 @@ const SaleAnimal: FC<SaleAnimalProps> = ({ account }) => {
   }
 
   const getOnSaleAnimalToken = async () => {
-    if (!account) return
     setIsLoading(true)
     try {
       // const onSaleAnimalTokenLength: string = await saleAnimalTokenContract.methods.getOnSaleAnimalTokenLength().call()
@@ -43,7 +42,7 @@ const SaleAnimal: FC<SaleAnimalProps> = ({ account }) => {
 
   useEffect(() => {
     account && getOnSaleAnimalToken()
-  }, [account])
+  }, [])
 
   useEffect(() => {
     console.log('onSaleAnimalCards', onSaleAnimalCards)
