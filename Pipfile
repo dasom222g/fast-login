@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+jinja2 = "==3.1.2"
+python-multipart = "*"
+sqlalchemy = "==1.4.0"
+mysqlclient = "==2.0.0"
+pydantic = "*"
+passlib = "==1.7.4"
+bcrypt = "*"
+pyjwt = "*"
+
+[dev-packages]
+ipykernel = "*"
+
+[requires]
+python_version = "3.11"
